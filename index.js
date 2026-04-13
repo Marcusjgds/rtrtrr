@@ -27,8 +27,8 @@ const ROLE_IDS = {
 
 // ─── RECRUTEMENTS ──────────────────────────────────────────────────────────
 const RECRUITMENTS = {
-  monPoste: {
-    label: '🎯 Directeur_Médical',
+  Directeur_Médical: {
+    label: '🎯 Directeur Médical',
     description: 'Nous recrutons !',
     color: 0x5865F2, // Couleur en hex
     questions: [
@@ -46,8 +46,8 @@ const RECRUITMENTS = {
       'Quel est le meilleur moyen de réduire les infections nosocomiales ?',
       // ...
 const RECRUITMENTS = {
-  monPoste: {
-    label: '🎯 Directeur_Scientifique',
+  Directeur_Scientifique: {
+    label: '🎯 Directeur Scientifique',
     description: 'Nous recrutons !',
     color: 0x5865F2, // Couleur en hex
     questions: [
