@@ -21,29 +21,30 @@ const TIMEOUT_SECONDS = 120;
 // Mets l'ID du rôle à attribuer pour chaque poste
 // Clic droit sur le rôle dans Discord > Copier l'identifiant
 const ROLE_IDS = {
-  'Directeur Médical': process.env.ROLE_MODERATEUR || '1493253219252441209',
+  DM: process.env.ROLE_DM || '1493253219252441209',
 
 };
 
 // ─── RECRUTEMENTS ──────────────────────────────────────────────────────────
 const RECRUITMENTS = {
-  'Directeur Médical': {
-    label: 'Directeur Médical',
+  monPoste: {
+    label: '🎯 Directeur Médical',
     description: 'Nous recrutons !',
-    color: 0x5865F2,
+    color: 0x5865F2, // Couleur en hex
     questions: [
       'Quel sont vos motivations ?',
-      'Pourquoi toi et pas un autre pour devenir Directeur Médical ? Explique : ton expérience ta gestion du stress ton leadership ta vision',
+      'Pourquoi toi et pas un autre pour devenir Directeur Médical ?',
       'Un hôpital fait face à une augmentation brutale de cas de Sepsis. Quelle est la priorité absolue ?',
-      'Un patient en Détresse respiratoire aiguë nécessite une ventilation. Quelle stratégie est recommandée ?c',
+      'Un patient en Détresse respiratoire aiguë nécessite une ventilation. Quelle stratégie est recommandée ?',
       'Quel trouble entraîne une augmentation des D-dimères ?',
       'Quel est le traitement immédiat d’un arrêt cardiaque ?',
       'Une Acidocétose diabétique nécessite :',
-       'Quel est le principal mode de transmission de Tuberculose ?',
+      'Quel est le principal mode de transmission de Tuberculose ?',
       'Quel signe évoque une hypertension intracrânienne ?',
       'En cas de ressources limitées (triage catastrophe), on privilégie :',
-       'Quel est le meilleur moyen de réduire les infections nosocomiales ?',
-   ],
+      'Quel est le meilleur moyen de réduire les infections nosocomiales ?',
+      // ...
+    ],
   },
 };
 
