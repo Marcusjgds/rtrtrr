@@ -14,7 +14,7 @@ const client = new Client({
 
 // ─── CONFIG ────────────────────────────────────────────────────────────────
 // Change these IDs after deployment
-const RESULTS_CHANNEL_ID = process.env.RESULTS_CHANNEL_ID || 'VOTRE_SALON_RESULTATS_ID';
+const RESULTS_CHANNEL_ID = process.env.RESULTS_CHANNEL_ID || '1493214612345192508';
 const TIMEOUT_SECONDS = 120;
 
 // ─── RÔLES PAR RECRUTEMENT ─────────────────────────────────────────────────
@@ -27,7 +27,7 @@ const ROLE_IDS = {
 
 // ─── RECRUTEMENTS ──────────────────────────────────────────────────────────
 const RECRUITMENTS = {
-  moderateur: {
+  'Directeur Médical': {
     label: 'Directeur Médical',
     description: 'Nous recrutons !',
     color: 0x5865F2,
@@ -70,7 +70,7 @@ client.on('messageCreate', async (message) => {
           inline: true,
         }))
       )
-      .setFooter({ text: 'Tu auras 30 secondes pour répondre à chaque question.' });
+      .setFooter({ text: 'Tu auras 120 secondes pour répondre à chaque question.' });
 
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
