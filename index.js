@@ -21,18 +21,19 @@ const TIMEOUT_SECONDS = 120;
 // Mets l'ID du rôle à attribuer pour chaque poste
 // Clic droit sur le rôle dans Discord > Copier l'identifiant
 const ROLE_IDS = {
-  DM: process.env.ROLE_DM || '1493253219252441209',
-
+  Directeur_Médical: process.env.ROLE_Directeur_Médical || '1493253219252441209',
+  Directeur_Scientifique: process.env.ROLE_Directeur_Scientifique || '1493253219252441209',
 };
 
 // ─── RECRUTEMENTS ──────────────────────────────────────────────────────────
 const RECRUITMENTS = {
   monPoste: {
-    label: '🎯 Directeur Médical',
+    label: '🎯 Directeur_Médical',
     description: 'Nous recrutons !',
     color: 0x5865F2, // Couleur en hex
     questions: [
       'Quel sont vos motivations ?',
+      'Votre pseudo roblox + ID roblox',
       'Pourquoi toi et pas un autre pour devenir Directeur Médical ?',
       'Un hôpital fait face à une augmentation brutale de cas de Sepsis. Quelle est la priorité absolue ?',
       'Un patient en Détresse respiratoire aiguë nécessite une ventilation. Quelle stratégie est recommandée ?',
@@ -44,6 +45,26 @@ const RECRUITMENTS = {
       'En cas de ressources limitées (triage catastrophe), on privilégie :',
       'Quel est le meilleur moyen de réduire les infections nosocomiales ?',
       // ...
+const RECRUITMENTS = {
+  monPoste: {
+    label: '🎯 Directeur_Scientifique',
+    description: 'Nous recrutons !',
+    color: 0x5865F2, // Couleur en hex
+    questions: [
+      'Quel sont vos motivations ?',
+      'Votre pseudo roblox + ID roblox',
+      'Quelle est la caractéristique essentielle d’une hypothèse scientifique valide ?',
+      'Que signifie une p-value < 0,05 ?',
+      'Quel est le rôle principal de l’ADN ?',
+      'Quel est le but d’un essai randomisé contrôlé ?',
+      'Quel biais survient quand on ne publie que les résultats positifs ?',
+      'Quelle technique permet d’amplifier l’ADN ?',
+      'Quel test utiliser pour comparer 2 moyennes ?',
+      'Quel est le rôle principal d’un Directeur Scientifique ?',
+      'Quelle structure permet aux bactéries de résister aux antibiotiques ?',
+      'Quel est le niveau de preuve le plus élevé ?',
+      'Quel est le plus grand risque en recherche ?',
+      'Pourquoi toi et pas un autre pour devenir Directeur Scientifique ?',
     ],
   },
 };
