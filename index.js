@@ -43,7 +43,7 @@ const RECRUITMENTS = {
       'Quel signe évoque une hypertension intracrânienne ?',
       'En cas de ressources limitées (triage catastrophe), on privilégie :',
        'Quel est le meilleur moyen de réduire les infections nosocomiales ?',
-    ],
+   ],
   },
 };
 
