@@ -15,53 +15,34 @@ const client = new Client({
 // ─── CONFIG ────────────────────────────────────────────────────────────────
 // Change these IDs after deployment
 const RESULTS_CHANNEL_ID = process.env.RESULTS_CHANNEL_ID || 'VOTRE_SALON_RESULTATS_ID';
-const TIMEOUT_SECONDS = 30;
+const TIMEOUT_SECONDS = 120;
 
 // ─── RÔLES PAR RECRUTEMENT ─────────────────────────────────────────────────
 // Mets l'ID du rôle à attribuer pour chaque poste
 // Clic droit sur le rôle dans Discord > Copier l'identifiant
 const ROLE_IDS = {
-  moderateur: process.env.ROLE_MODERATEUR || 'ID_ROLE_MODERATEUR',
-  builder:    process.env.ROLE_BUILDER    || 'ID_ROLE_BUILDER',
-  helper:     process.env.ROLE_HELPER     || 'ID_ROLE_HELPER',
+  'Directeur Médical': process.env.ROLE_MODERATEUR || '1493253219252441209',
+
 };
 
 // ─── RECRUTEMENTS ──────────────────────────────────────────────────────────
 const RECRUITMENTS = {
   moderateur: {
-    label: '🛡️ Modérateur',
-    description: 'Rejoindre l\'équipe de modération',
+    label: 'Directeur Médical',
+    description: 'Nous recrutons !',
     color: 0x5865F2,
     questions: [
-      'Quel est ton pseudo Discord et ton âge ?',
-      'Depuis combien de temps es-tu sur ce serveur ?',
-      'Pourquoi veux-tu devenir modérateur ?',
-      'Combien d\'heures par semaine peux-tu dédier au serveur ?',
-      'Comment gèrerais-tu un conflit entre deux membres ?',
-    ],
-  },
-  builder: {
-    label: '🏗️ Builder',
-    description: 'Rejoindre l\'équipe de construction',
-    color: 0x57F287,
-    questions: [
-      'Quel est ton pseudo Discord et ton âge ?',
-      'Depuis combien de temps joues-tu à Minecraft ?',
-      'Quel est ton style de construction préféré ?',
-      'As-tu déjà rejoint un serveur de construction ? Si oui, lequel ?',
-      'Montre-nous une réalisation dont tu es fier (lien ou description) ?',
-    ],
-  },
-  helper: {
-    label: '💬 Helper',
-    description: 'Aider les membres du serveur',
-    color: 0xFEE75C,
-    questions: [
-      'Quel est ton pseudo Discord et ton âge ?',
-      'Pourquoi veux-tu devenir Helper ?',
-      'Quels sont tes points forts pour aider les autres ?',
-      'Quelle est ta disponibilité hebdomadaire ?',
-      'Décris une situation où tu as aidé quelqu\'un efficacement ?',
+      'Quel sont vos motivations ?',
+      'Pourquoi toi et pas un autre pour devenir Directeur Médical ? Explique : ton expérience ta gestion du stress ton leadership ta vision',
+      'Un hôpital fait face à une augmentation brutale de cas de Sepsis. Quelle est la priorité absolue ?',
+      'Un patient en Détresse respiratoire aiguë nécessite une ventilation. Quelle stratégie est recommandée ?c',
+      'Quel trouble entraîne une augmentation des D-dimères ?',
+      'Quel est le traitement immédiat d’un arrêt cardiaque ?',
+      'Une Acidocétose diabétique nécessite :',
+       'Quel est le principal mode de transmission de Tuberculose ?',
+      'Quel signe évoque une hypertension intracrânienne ?',
+      'En cas de ressources limitées (triage catastrophe), on privilégie :',
+       'Quel est le meilleur moyen de réduire les infections nosocomiales ?',
     ],
   },
 };
