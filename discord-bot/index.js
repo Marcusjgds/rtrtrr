@@ -16,7 +16,6 @@ const RESULTS_CHANNEL_ID = process.env.RESULTS_CHANNEL_ID || '149324677255266720
 const TIMEOUT_SECONDS = 120;
 const QCM_COOLDOWN_HOURS = 24;
 
-// ─── QCM (correct: 0=A, 1=B, 2=C) ────────────────────────────────────────
 const QCM_QUESTIONS = [
   {
     question: 'Que signifie officiellement "SCP" selon la Fondation ?',
@@ -65,7 +64,6 @@ const qcmPassed = new Set();
 const qcmSessions = new Map();
 const activeSessions = new Map();
 
-// ─── CATEGORIES ────────────────────────────────────────────────────────────
 const CATEGORIES = {
   medical: {
     label: 'Departement Medical',
@@ -93,7 +91,6 @@ const ROLE_IDS = {
   dirint: process.env.ROLE_DIRINT || '1493253219252441209',
 };
 
-// ─── RECRUTEMENTS ──────────────────────────────────────────────────────────
 const RECRUITMENTS = {
   dirmed: {
     label: 'Directeur Medical',
@@ -136,29 +133,27 @@ const RECRUITMENTS = {
     ],
   },
   dirint: {
-    label: "Directeur d'Installation",
+    label: "Directeur d Installation",
     description: 'Departement Administratif',
     color: 0xFEE75C,
     questions: [
       'Quelles sont vos motivations ?',
       'Votre pseudo Roblox + ID Roblox',
-      "Explique ce que represente pour toi le role de Directeur d'Installation SCP.",
+      "Explique ce que represente pour toi le role de Directeur d Installation SCP.",
       'Quelles seraient tes 3 priorites absolues en arrivant sur un site SCP ?',
       'Une breche de confinement se produit avec plusieurs SCP en liberte. Decris chaque etape de ta gestion de crise.',
       'Comment geres-tu un SCP de classe Keter extremement instable ?',
       'Jusqu ou es-tu pret a aller dans les tests sur les SCP ?',
       'Toutes les communications sont coupees, le site est en chaos. Comment reprends-tu le controle ?',
-      "Pourquoi toi et pas un autre pour devenir Directeur d'Installation SCP ?",
+      "Pourquoi toi et pas un autre pour devenir Directeur d Installation SCP ?",
     ],
   },
 };
 
-// ─── READY ─────────────────────────────────────────────────────────────────
 client.once('ready', () => {
   console.log('Bot connecte : ' + client.user.tag);
 });
 
-// ─── COMMANDES ─────────────────────────────────────────────────────────────
 client.on('messageCreate', async (message) => {
   if (message.author.bot) return;
 
@@ -166,14 +161,14 @@ client.on('messageCreate', async (message) => {
   if (message.content === '!setup-recrutement' && message.guild && message.member?.permissions.has('Administrator')) {
     const embed = new EmbedBuilder()
       .setTitle('📋 Recrutements ouverts')
-      .setDescription('Clique sur **Postuler** pour choisir un departement.\n\n⚠️ Tu dois dabord reussir le **/QCM** pour acceder aux recrutements.')
+      .setDescription('Clique sur **Postuler** pour choisir un departement.\n\n Tu dois reussir le **/QCM** pour acceder aux recrutements.')
       .setColor(0x5865F2)
       .addFields(Object.values(CATEGORIES).map(cat => ({
         name: cat.emoji + ' ' + cat.label,
         value: cat.postes.map(p => '• ' + RECRUITMENTS[p].label).join('\n'),
         inline: true,
       })))
-      .setFooter({ text: 'Tu auras ' + TIMEOUT_SECONDS + 's par question de recrutement.' });
+      .setFooter({ text: 'Tu auras ' + TIMEOUT_SECONDS + 's par question.' });
 
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder().setCustomId('open_recruitment').setLabel('📝 Postuler').setStyle(ButtonStyle.Primary)
@@ -196,19 +191,19 @@ client.on('messageCreate', async (message) => {
       if (remaining > 0) {
         const hours = Math.floor(remaining / 3600000);
         const minutes = Math.floor((remaining % 3600000) / 60000);
-        return message.reply({ content: '⏳ Attends encore **' + hours + 'h ' + minutes + 'min** avant de retenter.' });
+        return message.reply({ content: '⏳ Attends encore **' + hours + 'h ' + minutes + 'min** avant de retenter le QCM.' });
       }
       qcmCooldowns.delete(userId);
     }
 
     if (qcmSessions.has(userId)) {
-      return message.reply({ content: '⚠️ Tu as deja un QCM en cours dans tes DMs !' });
+      return message.reply({ content: '⚠️ Tu as deja un QCM en cours dans tes messages prives !' });
     }
 
     await message.reply({ content: '📨 Le QCM a ete envoye en message prive !' });
     try {
       const dmChannel = await message.author.createDM();
-      qcmSessions.set(userId, { questionIndex: 0, guildId: message.guildId });
+      qcmSessions.set(userId, { questionIndex: 0, guildId: message.guildId, channelId: message.channelId });
       await sendQcmQuestion(dmChannel, userId);
     } catch {
       qcmSessions.delete(userId);
@@ -217,7 +212,6 @@ client.on('messageCreate', async (message) => {
   }
 });
 
-// ─── INTERACTIONS ──────────────────────────────────────────────────────────
 client.on('interactionCreate', async (interaction) => {
 
   // Reponse QCM (boutons A/B/C)
@@ -241,7 +235,8 @@ client.on('interactionCreate', async (interaction) => {
       qcmSessions.delete(userId);
       qcmCooldowns.set(userId, Date.now());
 
-      const embed = new EmbedBuilder()
+      // Embed en DM
+      const failEmbed = new EmbedBuilder()
         .setTitle('❌ QCM echoue !')
         .setDescription(
           'Mauvaise reponse a la question **' + (qIndex + 1) + '** !\n\n' +
@@ -252,7 +247,24 @@ client.on('interactionCreate', async (interaction) => {
         .setColor(0xED4245)
         .setTimestamp();
 
-      return interaction.update({ embeds: [embed], components: [] });
+      await interaction.update({ embeds: [failEmbed], components: [] });
+
+      // Notification dans le canal
+      try {
+        const guild = await client.guilds.fetch(session.guildId).catch(() => null);
+        if (guild) {
+          const guildChannel = await guild.channels.fetch(session.channelId).catch(() => null);
+          if (guildChannel) {
+            const publicEmbed = new EmbedBuilder()
+              .setTitle('❌ QCM echoue')
+              .setDescription('<@' + userId + '> a echoue au QCM SCP.\n⏳ Il/Elle pourra retenter dans **' + QCM_COOLDOWN_HOURS + ' heures**.')
+              .setColor(0xED4245)
+              .setTimestamp();
+            await guildChannel.send({ embeds: [publicEmbed] });
+          }
+        }
+      } catch {}
+      return;
     }
 
     // Bonne reponse
@@ -262,7 +274,8 @@ client.on('interactionCreate', async (interaction) => {
       qcmSessions.delete(userId);
       qcmPassed.add(userId);
 
-      const embed = new EmbedBuilder()
+      // Embed en DM
+      const successEmbed = new EmbedBuilder()
         .setTitle('✅ QCM reussi !')
         .setDescription(
           '🎉 Felicitations ! Tu as repondu correctement a toutes les questions.\n\n' +
@@ -271,7 +284,24 @@ client.on('interactionCreate', async (interaction) => {
         .setColor(0x57F287)
         .setTimestamp();
 
-      return interaction.update({ embeds: [embed], components: [] });
+      await interaction.update({ embeds: [successEmbed], components: [] });
+
+      // Notification dans le canal
+      try {
+        const guild = await client.guilds.fetch(session.guildId).catch(() => null);
+        if (guild) {
+          const guildChannel = await guild.channels.fetch(session.channelId).catch(() => null);
+          if (guildChannel) {
+            const publicEmbed = new EmbedBuilder()
+              .setTitle('✅ QCM reussi !')
+              .setDescription('<@' + userId + '> a reussi le QCM SCP !\n🔓 Il/Elle peut maintenant acceder aux recrutements.')
+              .setColor(0x57F287)
+              .setTimestamp();
+            await guildChannel.send({ embeds: [publicEmbed] });
+          }
+        }
+      } catch {}
+      return;
     }
 
     // Question suivante
@@ -290,13 +320,13 @@ client.on('interactionCreate', async (interaction) => {
 
     if (!qcmPassed.has(userId)) {
       return interaction.reply({
-        content: '🔒 Tu dois dabord reussir le **QCM** avant de postuler !\nUtilise `/QCM` sur le serveur.',
+        content: '🔒 Tu dois reussir le **QCM** avant de postuler ! Utilise `/QCM` sur le serveur.',
         ephemeral: true,
       });
     }
 
     if (activeSessions.has(userId)) {
-      return interaction.reply({ content: '⚠️ Tu as deja une candidature en cours dans tes DMs !', ephemeral: true });
+      return interaction.reply({ content: '⚠️ Tu as deja une candidature en cours dans tes messages prives !', ephemeral: true });
     }
 
     const buttons = Object.entries(CATEGORIES).map(([key, cat]) =>
@@ -337,7 +367,7 @@ client.on('interactionCreate', async (interaction) => {
     const key = interaction.values[0];
     const recruitment = RECRUITMENTS[key];
 
-    await interaction.update({ content: '✅ Tu as choisi **' + recruitment.label + '**. Regarde tes DMs !', components: [] });
+    await interaction.update({ content: '✅ Tu as choisi **' + recruitment.label + '**. Regarde tes messages prives !', components: [] });
 
     activeSessions.set(interaction.user.id, {
       recruitmentKey: key,
@@ -442,8 +472,6 @@ client.on('messageCreate', async (message) => {
   }
 });
 
-// ─── FONCTIONS ─────────────────────────────────────────────────────────────
-
 async function sendQcmQuestion(dmChannel, userId) {
   const session = qcmSessions.get(userId);
   if (!session) return;
@@ -460,7 +488,7 @@ async function sendQcmQuestion(dmChannel, userId) {
       q.choices.map((c, i) => '**' + labels[i] + ')** ' + c).join('\n')
     )
     .setColor(0x5865F2)
-    .setFooter({ text: '⚠️ Une seule mauvaise reponse = QCM echoue. Reflechis bien !' });
+    .setFooter({ text: 'Une seule mauvaise reponse = QCM echoue. Reflechis bien !' });
 
   const row = new ActionRowBuilder().addComponents(
     q.choices.map((choice, i) =>
@@ -482,11 +510,11 @@ async function sendWelcomeMessage(dmChannel, userId) {
     .setTitle('📋 Candidature — ' + recruitment.label)
     .setDescription(
       'Bienvenue dans le questionnaire de recrutement !\n\n' +
-      '📌 **Poste :** ' + recruitment.label + '\n' +
-      '❓ **Questions :** ' + recruitment.questions.length + '\n' +
-      '⏱️ **Temps par question :** ' + TIMEOUT_SECONDS + ' secondes\n\n' +
+      'Poste : **' + recruitment.label + '**\n' +
+      'Questions : **' + recruitment.questions.length + '**\n' +
+      'Temps par question : **' + TIMEOUT_SECONDS + ' secondes**\n\n' +
       'Clique sur le bouton quand tu es pret(e).\n' +
-      '⚠️ Le chronometre demarre des la premiere question !'
+      'Le chronometre demarre des la premiere question !'
     )
     .setColor(recruitment.color)
     .setTimestamp();
@@ -508,7 +536,7 @@ async function startQuestion(dmChannel, userId) {
     .setTitle(recruitment.label + ' — Question ' + (qIndex + 1) + '/' + total)
     .setDescription('❓ **' + recruitment.questions[qIndex] + '**')
     .setColor(recruitment.color)
-    .setFooter({ text: '⏱️ Tu as ' + TIMEOUT_SECONDS + ' secondes pour repondre.' });
+    .setFooter({ text: 'Tu as ' + TIMEOUT_SECONDS + ' secondes pour repondre.' });
 
   await dmChannel.send({ embeds: [embed] });
 
