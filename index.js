@@ -20,8 +20,8 @@ const QCM_COOLDOWN_HOURS = 24;
 const QCM_QUESTIONS = [
   {
     question: 'Que signifie officiellement "SCP" selon la Fondation ?',
-    choices: ['Securiser Contenir Proteger', 'Special Containment Procedures', 'Secure Contain Protect'],
-    correct: 2,
+    choices: ['Securiser Contenir Proteger', 'Special Containment Procedures', 'Securisé Confiner Proteger'],
+    correct: 1,
   },
   {
     question: 'SCP-173 est dangereux uniquement quand...',
