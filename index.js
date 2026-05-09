@@ -12,7 +12,7 @@ const client = new Client({
   partials: [Partials.Channel, Partials.Message],
 });
 
-const RESULTS_CHANNEL_ID = process.env.RESULTS_CHANNEL_ID || '1493246772552667207';
+const RESULTS_CHANNEL_ID = process.env.RESULTS_CHANNEL_ID || '1502635439012577291';
 const TIMEOUT_SECONDS = 120;
 const QCM_COOLDOWN_HOURS = 24;
 
