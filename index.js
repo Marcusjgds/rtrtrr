@@ -21,7 +21,7 @@ const QCM_QUESTIONS = [
   {
     question: 'Que signifie officiellement "SCP" selon la Fondation ?',
     choices: ['Securiser Contenir Proteger', 'Special Containment Procedures', 'Securisé Confiner Proteger'],
-    correct: 1,
+    correct: 3,
   },
   {
     question: 'SCP-173 est dangereux uniquement quand...',
