@@ -5,7 +5,7 @@ const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,sdsdsdsdds
+    GatewayIntentBits.MessageContent,
     GatewayIntentBits.DirectMessages,
     GatewayIntentBits.GuildMembers,
   ],
@@ -19,43 +19,43 @@ const QCM_COOLDOWN_HOURS = 24;
 // ─── QCM (correct: 0=A, 1=B, 2=C) ────────────────────────────────────────
 const QCM_QUESTIONS = [
   {
-    question: 'Que signifie officiellement "SCP" selon la Fondation ?',
-    choices: ['Securiser Contenir Proteger', 'Special Containment Procedures', 'Securisé Confiner Proteger'],
-    correct: 0,
+    question: 'Quel est l’objectif principal de la Fondation SCP ?',
+    choices: ['Détruire toutes les anomalies', 'Sécuriser, Contenir et Protéger', 'Étudier les anomalies publiquement'],
+    correct:1,
   },
-  {
-    question: 'SCP-173 est dangereux uniquement quand...',
-    choices: ['Il fait nuit complete dans sa cellule', 'Il nest pas observe directement par au moins une personne', 'Sa temperature depasse 40 degres'],
-    correct: 1,
-  },
-  {
-    question: 'Quelle classe designe un SCP dont la neutralisation menacerait la realite entiere ?',
-    choices: ['Euclid', 'Keter', 'Apollyon'],
+    {
+    question: 'Un SCP de classe Keter signifie :',
+    choices: ['Facile à contenir', 'Impossible à détruire', 'Très difficile à contenir'],
     correct: 2,
   },
-  {
-    question: 'Pourquoi SCP-682 na jamais pu etre neutralise ?',
-    choices: ['Il sadapte biologiquement a chaque methode de destruction', 'Il est protege par un champ de force', 'Il se teleporte hors de toute enceinte'],
-    correct: 0,
+    {
+    question: 'Si des IC attaque le site je dois :',
+    choices: ['Courrir vers eu pour être en otage', 'Aller voir la sécurité et prendre une arme', 'me diriger vers le bunker le plus proche'],
+    correct: 2,
   },
-  {
-    question: 'Quel est le bon protocole si le visage de SCP-096 apparait sur une camera ?',
-    choices: ['Declencher le protocole Pandora', 'Flouter son visage sur tous les supports et isoler les temoins', 'Neutraliser tous les agents ayant vu son visage sous 30 min'],
+    {
+    question: 'Que signifie une brèche de confinement ?',
+    choices: ['Une panne électrique mineure', 'Une anomalie échappée de son confinement', 'Une erreur informatique'],
     correct: 1,
   },
-  {
-    question: 'Quelle organisation rivale exploite les anomalies a des fins commerciales ?',
-    choices: ['Le Chaos Insurgency', 'Marshall Carter and Dark Ltd', 'La Fondation Prometheus'],
+      {
+    question: 'Quel département est responsable des réseaux et serveurs sécurisés ?',
+    choices: ['Département Médical', 'Département I.T', 'Département Scientifique'],
     correct: 1,
   },
-  {
-    question: 'SCP-3001 decrit un chercheur isole dans un espace sans matiere. Quel est le phenomene principal ?',
-    choices: ['La desintegration de la memoire et conscience par isolement total', 'Une boucle temporelle infinie de 3 secondes', 'La fusion progressive avec SCP-106'],
-    correct: 0,
+      {
+    question: 'Que doit faire un agent face à une anomalie inconnue ?',
+    choices: ['L’approcher seul', 'Ignorer l’anomalie', 'Appliquer les protocoles de sécurité'],
+    correct: 2,
   },
-  {
-    question: 'Le Protocole Ouroboros designe...',
-    choices: ['La destruction simultanee de tous les SCP Keter', 'Un scenario impliquant SCP-2399 et SCP-179', 'Le plan urgence de la Fondation en cas de fin du monde imminente'],
+      {
+    question: 'Une fuite d’informations SCP vers des civils entraîne :',
+    choices: ['Une publication officielle', 'L’activation des protocoles de désinformation', 'Une évacuation du site uniquement'],
+    correct: 1,
+  },
+      {
+    question: 'Que doit faire le personnel lors d’un Code Rouge ?',
+    choices: ['Continuer les activités normales', 'Attendre des instructions sans agir', 'Appliquer immédiatement les protocoles d’urgence'],
     correct: 2,
   },
 ];
